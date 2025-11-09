@@ -1,0 +1,40 @@
+name: Matrix Build with Artifacts (59bd23a)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    name: Matrix Job - ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        variant: [node18, node20, python311]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ✅ Step Identifier required by task
+      - name: matrix-59bd23a
+        run: echo "Running matrix variant: ${{ matrix.variant }}"
+
+      # --- Example build step per variant ---
+      - name: Simulate build for ${{ matrix.variant }}
+        run: |
+          echo "Building variant: ${{ matrix.variant }}"
+          mkdir -p output
+          echo "Build info for variant: ${{ matrix.variant }}" > output/build-info-${{ matrix.variant }}.txt
+          date >> output/build-info-${{ matrix.variant }}.txt
+          uname -a >> output/build-info-${{ matrix.variant }}.txt
+
+      # --- Upload artifact ---
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-59bd23a-${{ matrix.variant }}
+          path: output/build-info-${{ matrix.variant }}.txt
