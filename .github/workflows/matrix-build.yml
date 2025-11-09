@@ -19,11 +19,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # ✅ Step Identifier required by task
+      # ✅ Step Identifier (required)
       - name: matrix-59bd23a
         run: echo "Running matrix variant: ${{ matrix.variant }}"
 
-      # --- Example build step per variant ---
+      # Simulate build output
       - name: Simulate build for ${{ matrix.variant }}
         run: |
           echo "Building variant: ${{ matrix.variant }}"
@@ -32,7 +32,7 @@ jobs:
           date >> output/build-info-${{ matrix.variant }}.txt
           uname -a >> output/build-info-${{ matrix.variant }}.txt
 
-      # --- Upload artifact ---
+      # Upload artifact
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
